@@ -13,6 +13,7 @@
     input { padding: 10px; margin: 5px; width: 80%; }
     button { padding: 10px 20px; background: #27ae60; color: #fff; border: none; border-radius: 5px; }
     .lang-switch { margin: 20px; }
+    .success { color: green; font-weight: bold; margin-top: 15px; display: none; }
   </style>
 </head>
 <body>
@@ -31,13 +32,18 @@
 
       <div id="form-ar" class="form">
         <h2>سجل بياناتك</h2>
-        <form action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSe5tPYuthkJ-0Y2D3ty41pJS8fdeM3IqBqvUOA3P3PraWYL4g/formResponse" method="POST">
+        <form id="form-arabic" 
+              action="https://docs.google.com/forms/d/e/1FAIpQLSe5tPYuthkJ-0Y2D3ty41pJS8fdeM3IqBqvUOA3P3PraWYL4g/formResponse" 
+              method="POST" 
+              target="hidden_iframe" 
+              onsubmit="submitted='ar';">
           <input type="text" name="entry.1577279292" placeholder="الاسم" required><br>
           <input type="email" name="entry.210675580" placeholder="البريد الإلكتروني" required><br>
           <input type="text" name="entry.1161708133" placeholder="وصف مختصر للمشكلة" required><br>
           <input type="text" name="entry.1563424611" placeholder="رقم واتساب" required><br>
           <button type="submit">إرسال</button>
         </form>
+        <div id="success-ar" class="success">✅ تم إرسال بياناتك بنجاح!</div>
       </div>
     </div>
 
@@ -49,18 +55,27 @@
 
       <div id="form-en" class="form">
         <h2>Enter Your Details</h2>
-        <form action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSe5tPYuthkJ-0Y2D3ty41pJS8fdeM3IqBqvUOA3P3PraWYL4g/formResponse" method="POST">
+        <form id="form-english" 
+              action="https://docs.google.com/forms/d/e/1FAIpQLSe5tPYuthkJ-0Y2D3ty41pJS8fdeM3IqBqvUOA3P3PraWYL4g/formResponse" 
+              method="POST" 
+              target="hidden_iframe" 
+              onsubmit="submitted='en';">
           <input type="text" name="entry.1577279292" placeholder="Name" required><br>
           <input type="email" name="entry.210675580" placeholder="Email" required><br>
           <input type="text" name="entry.1161708133" placeholder="Short description of the issue" required><br>
           <input type="text" name="entry.1563424611" placeholder="WhatsApp Number" required><br>
           <button type="submit">Submit</button>
         </form>
+        <div id="success-en" class="success">✅ Your data has been submitted successfully!</div>
       </div>
-    </div>0
+    </div>
   </div>
 
+  <!-- iframe مخفي لمنع الانتقال لواجهة Google Form -->
+  <iframe name="hidden_iframe" style="display:none;" onload="showSuccess();"></iframe>
+
   <script>
+    var submitted = null;
     function showArabic() {
       document.getElementById("arabic").style.display = "block";
       document.getElementById("english").style.display = "none";
@@ -68,6 +83,16 @@
     function showEnglish() {
       document.getElementById("arabic").style.display = "none";
       document.getElementById("english").style.display = "block";
+    }
+    function showSuccess() {
+      if(submitted === 'ar'){
+        document.getElementById("success-ar").style.display = "block";
+        document.getElementById("form-arabic").reset();
+      } else if(submitted === 'en'){
+        document.getElementById("success-en").style.display = "block";
+        document.getElementById("form-english").reset();
+      }
+      submitted = null;
     }
   </script>
 </body>
